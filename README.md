@@ -1,2 +1,2 @@
 # rabbase
-简单、规范、已扩展到 Python3 基础包
+简单、规范、易扩展的 Python3 基础包
