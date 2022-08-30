@@ -10,7 +10,8 @@
 
 
 import copy
-import database
+
+import rab_database
 
 
 # 检索 SQL
@@ -67,7 +68,7 @@ class BaseClass():
     基础类
     """
 
-    def __init__(self):
+    def __init__(self, _table_name, _primary_keys):
         """
         初始化
         """
@@ -108,7 +109,7 @@ class BaseClass():
                 temp_dict.pop(key)
         return temp_dict
 
-    def select(self, database_driver: database.Driver):
+    def select(self, database_driver: rab_database.Driver):
         """
         检索
 
@@ -138,7 +139,7 @@ class BaseClass():
         # print(select_sql, "\n", filter_values)
         return database_driver.select(select_sql, filter_values)
 
-    def insert(self, database_driver: database.Driver):
+    def insert(self, database_driver: rab_database.Driver):
         """
         插入
 
@@ -156,7 +157,7 @@ class BaseClass():
         # print(insert_sql, "\n", insert_values)
         return database_driver.insert(insert_sql, insert_values)
 
-    def update(self, database_driver: database.Driver):
+    def update(self, database_driver: rab_database.Driver):
         """
         更新
 
@@ -195,7 +196,8 @@ class BaseClass():
         # print(update_sql, "\n", update_values, "\n", filter_values)
         return database_driver.update(update_sql, update_values, filter_values)
 
-    def insert_on_conflict_do_update(self, database_driver: database.Driver):
+    def insert_on_conflict_do_update(self,
+                                     database_driver: rab_database.Driver):
         """
         插入冲突时更新
 
@@ -222,7 +224,7 @@ class BaseClass():
             insert_on_conflict_do_update_sql,
             insert_values)
 
-    def delete(self, database_driver: database.Driver):
+    def delete(self, database_driver: rab_database.Driver):
         """
         删除
 
@@ -257,7 +259,7 @@ if __name__ == "__main__":
     import uuid
     import datetime
     # 建立数据库连接
-    test_database_driver = database.Driver(
+    test_database_driver = rab_database.Driver(
         type_="postgresql",
         host="xxxxx",
         port=5432,
@@ -267,8 +269,7 @@ if __name__ == "__main__":
     )
     test_database_driver.connect()
     # 测试对象
-    test_base_class = BaseClass()
-    test_base_class._table_name = "test"
+    test_base_class = BaseClass("test", ["id"])
     # 测试检索
     # print(test_base_class.select(test_database_driver))
     # 测试插入
